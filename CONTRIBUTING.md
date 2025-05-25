@@ -17,7 +17,7 @@
 - Следите за типами и TSDoc-комментариями в новых файлах
 - Все публичные методы и новые типы должны быть описаны в README/docs
 - Покрывайте код тестами (Jest, edge-cases приветствуются)
-- Для больших изменений — обсудите идею в [Issues](https://github.com/layerflow/layerflow/issues) или [Discussions](https://github.com/layerflow/layerflow/discussions)
+- Для больших изменений — обсудите идею в [Issues](https://github.com/layerflow-org/layerflow/issues) или [Discussions](https://github.com/layerflow-org/layerflow/discussions)
 
 ## Стиль кода
 
@@ -32,7 +32,7 @@
 
 ## Вопросы?
 
-- Используйте [Issues](https://github.com/layerflow/layerflow/issues) для багов/фичей
-- Для обсуждений и предложений — [Discussions](https://github.com/layerflow/layerflow/discussions)
+- Используйте [Issues](https://github.com/layerflow-org/layerflow/issues) для багов/фичей
+- Для обсуждений и предложений — [Discussions](https://github.com/layerflow-org/layerflow/discussions)
 
 Спасибо за вклад в LayerFlow — вместе мы делаем инструмент лучше!
