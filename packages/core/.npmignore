@@ -1,0 +1,72 @@
+# Source files (only dist should be published)
+src/
+tests/
+*.test.ts
+*.spec.ts
+
+# Development configuration
+tsconfig.json
+tsup.config.ts
+jest.config.js
+eslint.config.js
+.eslintrc.js
+typedoc.json
+
+# Development dependencies and cache
+node_modules/
+
+# Build artifacts that shouldn't be published
+coverage/
+.nyc_output/
+*.tsbuildinfo
+.eslintcache
+
+# Development documentation
+RELEASE_NOTES.md
+DEVELOPMENT.md
+ARCHITECTURE.md
+
+# Examples and demos
+examples/
+demo/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Local configuration
+.env*
+config.local.*
+
+# Git files
+.git/
+.gitignore
+
+# CI/CD files
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+
+# Package manager files (lock files should not be in published packages)
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+.pnpm-lock.yaml 
