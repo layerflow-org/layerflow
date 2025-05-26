@@ -26,7 +26,16 @@ export {
 export * from './plugins';
 export * from './utils';
 
+// Export new registry and enhanced plugin system
+export * from './registry';
+export * from './enhanced-plugins';
+export * from './domain-activation';
+
 // Convenient aliases for common usage patterns
 export { LayerFlowGraph as Graph } from './graph';
 export { validateGraph as validate } from './validation';
-export { migrateGraph as migrate } from './validation'; 
+export { migrateGraph as migrate } from './validation';
+
+// New aliases for enhanced functionality
+export { EnhancedPluginManager as EnhancedManager } from './enhanced-plugins';
+export { TypeRegistry as Registry } from './registry'; 
