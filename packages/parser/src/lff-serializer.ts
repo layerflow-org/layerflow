@@ -77,6 +77,9 @@ export interface LFFSerializerOptions {
   };
 }
 
+// Backwards compatibility aliases
+export type SerializationOptions = LFFSerializerOptions;
+
 /**
  * Internal structure representation before formatting
  * @private
@@ -701,6 +704,24 @@ export class EnhancedLFFSerializer {
     // Format structure
     return this.formatter.formatStructure(structure);
   }
+
+  /**
+   * Serialize graph and provide metrics
+   */
+  serializeWithMetrics(graph: GraphAST): { serialized: string; metrics: { serializationTime: number; outputSize: number; nodeCount: number; edgeCount: number } } {
+    const start = performance.now();
+    const serialized = this.serialize(graph);
+    const serializationTime = performance.now() - start;
+    return {
+      serialized,
+      metrics: {
+        serializationTime,
+        outputSize: serialized.length,
+        nodeCount: graph.nodes.length,
+        edgeCount: graph.edges.length
+      }
+    };
+  }
   
   /**
    * Update serializer options
@@ -716,6 +737,13 @@ export class EnhancedLFFSerializer {
    */
   getOptions(): LFFSerializerOptions {
     return { ...this.options };
+  }
+
+  /**
+   * Validate serialization round-trip
+   */
+  validateRoundTrip(graph: GraphAST, serialized: string) {
+    return validateRoundTrip(graph, serialized);
   }
 }
 
@@ -790,6 +818,7 @@ export const LFFFormattingPresets = {
     sorting: { nodes: true, edges: true, directives: true }
   } satisfies LFFSerializerOptions
 };
+export const FormattingPresets = LFFFormattingPresets;
 
 // ============================================================================
 // Public API

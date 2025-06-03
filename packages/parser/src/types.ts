@@ -472,6 +472,18 @@ export interface ConversionOptions {
    * When true: ensures all nodes have unique identifiers
    */
   generateUniqueIds?: boolean;
+
+  /** @deprecated Use generateUniqueIds */
+  generateIds?: boolean;
+
+  /** Enable strict validation mode */
+  strictMode?: boolean;
+
+  /** Preserve source locations in output (legacy option) */
+  preserveSourceLocations?: boolean;
+
+  /** Enable debug mode with extra diagnostics */
+  debugMode?: boolean;
 }
 
 /**
@@ -493,8 +505,14 @@ export interface ParseResult {
   /** 
    * Converted Core AST ready for graph operations
    * Optional: only present when conversion succeeds
-   */
+  */
   coreAST?: GraphAST;
+
+  /**
+   * Legacy alias for `coreAST` used in older tests and integrations
+   * @deprecated Use `coreAST` instead
+   */
+  ast?: GraphAST;
   
   /** All errors encountered during parsing and conversion */
   errors: ParseError[];

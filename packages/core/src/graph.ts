@@ -287,7 +287,7 @@ export class LayerFlowGraph {
       throw new Error(`Node with ID "${id}" not found. Check the node ID or create the node first.`);
     }
 
-    const currentNode = this.ast.nodes[nodeIndex];
+    const currentNode = this.ast.nodes[nodeIndex]!;
     
     // Validate label if being updated
     if (updates.label !== undefined && (!updates.label || updates.label.trim() === '')) {
@@ -316,9 +316,9 @@ export class LayerFlowGraph {
       ...currentNode,
       ...updates,
       ...(mergedMetadata && { metadata: mergedMetadata })
-    };
+    } as GraphNode;
 
-    const updatedNode = deepClone(this.ast.nodes[nodeIndex]);
+    const updatedNode = deepClone(this.ast.nodes[nodeIndex]) as GraphNode;
 
     // Emit after hook
     this.emitHook('node:afterUpdate', updatedNode);
@@ -644,9 +644,9 @@ export class LayerFlowGraph {
     this.ast.layers[layerIndex] = {
       ...this.ast.layers[layerIndex],
       ...updates
-    };
+    } as LayerDefinition;
 
-    return deepClone(this.ast.layers[layerIndex]);
+    return deepClone(this.ast.layers[layerIndex]) as LayerDefinition;
   }
 
   /**
