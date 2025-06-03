@@ -45,7 +45,7 @@ interface ConversionContext {
 /**
  * Modular CST to LFF AST converter with discriminated union support
  */
-class CSTToLFFConverter {
+export class CSTToLFFConverter {
   private context: ConversionContext;
 
   constructor(sourceText: string) {
@@ -59,7 +59,7 @@ class CSTToLFFConverter {
   /**
    * Main conversion entry point
    */
-  convert(cst: CSTNode): LFFQ {
+  convert(cst: CSTNode): { success: boolean; ast?: LFFQ; errors: ParseError[] } {
     const result: LFFQ = {
       nodes: [],
       edges: [],
@@ -72,11 +72,11 @@ class CSTToLFFConverter {
     };
 
     if (!cst?.children) {
-      return result;
+      return { success: result.errors.length === 0, ast: result, errors: result.errors };
     }
 
     this.convertDocument(cst, result);
-    return result;
+    return { success: result.errors.length === 0, ast: result, errors: result.errors };
   }
 
   /**
@@ -677,7 +677,8 @@ class LocationHelper {
  * 
  * @public
  */
-export function convertCSTToLFF(cst: any, sourceText: string): LFFQ {
+export function convertCSTToLFF(cst: any, sourceText: string): { success: boolean; ast?: LFFQ; errors: ParseError[] } {
   const converter = new CSTToLFFConverter(sourceText);
   return converter.convert(cst);
-} 
+} export { CSTToLFFConverter as CSTToASTConverter };
+

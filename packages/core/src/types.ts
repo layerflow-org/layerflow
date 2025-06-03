@@ -13,6 +13,8 @@ export interface GraphNode {
   id: string;
   /** Human-readable label for the node */
   label: string;
+  /** Optional legacy name field */
+  name?: string;
   /** Type classification of the node (e.g., 'service', 'database', 'frontend') */
   type?: string;
   /** Layer level for hierarchical organization (0-based) */
@@ -28,6 +30,8 @@ export interface GraphNode {
  * @public
  */
 export interface Edge {
+  /** Optional identifier for the edge */
+  id?: string;
   /** Source node identifier */
   from: string;
   /** Target node identifier */
