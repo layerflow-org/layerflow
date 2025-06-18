@@ -718,6 +718,12 @@ export class EnhancedASTConverter {
       conversionTime: number;
       totalTime: number;
     };
+    /** Legacy success flag */
+    success?: boolean;
+    /** Legacy graph alias for ast */
+    graph?: GraphAST | null;
+    /** Optional debug info */
+    debugInfo?: Record<string, any>;
   } {
     const startTime = performance.now();
     ConversionLogger.time('Total Conversion');
@@ -727,7 +733,11 @@ export class EnhancedASTConverter {
       defaultNodeType: options.defaultNodeType || 'component',
       defaultEdgeType: options.defaultEdgeType || 'connection',
       preserveLFFMetadata: options.preserveLFFMetadata ?? true,
-      generateUniqueIds: options.generateUniqueIds ?? true
+      generateUniqueIds: options.generateUniqueIds ?? options.generateIds ?? true,
+      strictMode: options.strictMode ?? false,
+      preserveSourceLocations: options.preserveSourceLocations ?? false,
+      debugMode: options.debugMode ?? false,
+      generateIds: options.generateIds ?? options.generateUniqueIds ?? true
     };
 
     // Phase 1: Validation
@@ -739,7 +749,9 @@ export class EnhancedASTConverter {
       return {
         ast: null,
         errors: validation.errors,
-        warnings: validation.warnings
+        warnings: validation.warnings,
+        success: false,
+        graph: null
       };
     }
 
@@ -792,15 +804,18 @@ export class EnhancedASTConverter {
       ConversionLogger.timeEnd('Total Conversion');
       ConversionLogger.debug(`Conversion complete: ${nodes.length} nodes, ${edges.length} edges`);
 
+      const ast: GraphAST = { nodes, edges, metadata };
       return {
-        ast: { nodes, edges, metadata },
+        ast,
         errors: [],
         warnings: validation.warnings,
         metrics: {
           validationTime: conversionStart - startTime,
           conversionTime,
           totalTime
-        }
+        },
+        success: true,
+        graph: ast
       };
 
     } catch (error) {
@@ -817,7 +832,9 @@ export class EnhancedASTConverter {
       return {
         ast: null,
         errors: [conversionError],
-        warnings: validation.warnings
+        warnings: validation.warnings,
+        success: false,
+        graph: null
       };
     }
   }
@@ -887,3 +904,5 @@ export function convertLFFToCoreWithValidation(
 export function createConverter(): EnhancedASTConverter {
   return new EnhancedASTConverter();
 }
+export { EnhancedASTConverter as ASTConverter };
+

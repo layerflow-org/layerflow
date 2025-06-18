@@ -228,10 +228,11 @@ export function parseToCore(
     const parseStart = performance.now();
     const parser = new LFFParser();
     parser.setLexer(lexer);
-    const cst = parser.parseToCST(text);
-    
+    const cstResult = parser.parseToCST(text);
+
     // Convert CST to LFF AST
-    const lffAST = convertCSTToLFF(cst, text);
+    const lffResult = convertCSTToLFF(cstResult.cst, text);
+    const lffAST = lffResult.ast || { nodes: [], edges: [], directives: [], errors: lffResult.errors, sourceInfo: { text, lines: text.split('\n') } };
     
     // Add comments if requested
     if (includeComments) {
@@ -261,6 +262,8 @@ export function parseToCore(
 
     if (conversionResult.ast) {
       result.coreAST = conversionResult.ast;
+      // Temporary compatibility alias for older tests
+      (result as ParseResult).ast = conversionResult.ast;
     }
 
     if (enableMetrics) {
@@ -407,6 +410,27 @@ export function parseWithPlugins(
   return graph;
 }
 
+// ---------------------------------------------------------------------------
+// Legacy compatibility helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Legacy alias for parseToCore
+ * @public
+ */
+export const parseLFF = parseToCore;
+
+/**
+ * Create a parser instance with lexer preconfigured
+ * @public
+ */
+export function createParser(options: ParserOptions & ConversionOptions = {}): LFFParser & { parse: typeof parseToCore } {
+  const parser = new LFFParser();
+  parser.setLexer(new LFFLexer());
+  (parser as any).parse = (text: string) => parseToCore(text, options);
+  return parser as LFFParser & { parse: typeof parseToCore };
+}
+
 // ============================================================================
 // Default Export for Convenience
 // ============================================================================
@@ -415,4 +439,4 @@ export function parseWithPlugins(
  * Default export providing the most commonly used parsing function
  * @public
  */
-export default parseToCore; 
+export default parseToCore;

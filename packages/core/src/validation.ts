@@ -548,10 +548,12 @@ export class GraphValidator {
 
     // Check for gaps in level sequence
     for (let i = 1; i < levels.length; i++) {
-      if (levels[i] - levels[i - 1] > 1) {
+      const current = levels[i]!;
+      const previous = levels[i - 1]!;
+      if (current - previous > 1) {
         warnings.push(this.createWarning(
           'LEVEL_GAP',
-          `Gap in layer levels: missing level ${levels[i - 1] + 1}`,
+          `Gap in layer levels: missing level ${previous + 1}`,
           'nodes'
         ));
       }

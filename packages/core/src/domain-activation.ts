@@ -62,19 +62,19 @@ export class DirectiveDetector implements DomainDetector {
     lines.forEach((line, _index) => {
       // Detect explicit @domain: directives
       const domainMatch = line.match(/@domain:\s*([a-zA-Z0-9-_]+)/);
-      if (domainMatch) {
-        results.push({
-          domain: domainMatch[1],
-          confidence: 1.0,
-          source: 'directive',
-          line: _index + 1
-        });
+        if (domainMatch) {
+          results.push({
+            domain: domainMatch[1]!,
+            confidence: 1.0,
+            source: 'directive',
+            line: _index + 1
+          });
       }
 
       // Detect domain-prefixed directives (@c4:, @k8s:, @bpmn:)
       const prefixMatch = line.match(/@([a-zA-Z0-9-_]+):/);
       if (prefixMatch) {
-        const domain = prefixMatch[1];
+        const domain = prefixMatch[1]!;
         // Skip common non-domain directives and the 'domain' keyword itself
         if (!['level', 'style', 'nav', 'link', 'docs', 'domain'].includes(domain)) {
           results.push({
